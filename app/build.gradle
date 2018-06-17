@@ -18,13 +18,15 @@ android {
 }
 
 dependencies {
-    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
+    implementation 'com.google.protobuf:protobuf-java:3.5.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation files('src/androidTest/java/com/example/carloscosta/camandroid/protobuf-java-format-1.2-sources.jar')
 }
 
 
