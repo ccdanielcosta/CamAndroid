@@ -32,3 +32,4 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
+//"StationId", "Timestamp", "Latitude", "Longitude", "Heading", "Speed", "Acceleration", "YawRate",
