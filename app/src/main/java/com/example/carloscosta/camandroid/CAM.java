@@ -3,12 +3,14 @@ package com.example.carloscosta.camandroid;
 public class CAM{
 
     private int stationId;
-    private int timestamp;
+    private double timestamp;
     private double latitude;
     private double longitude;
-    private int heading;
+    private double heading;
     private double speed;
     private int acceleration;
+    private int yaw_rate;
+    private int alert;
 
     public int getStationId(){
         return stationId;
@@ -16,10 +18,10 @@ public class CAM{
     public void setStationId(int input){
         this.stationId = input;
     }
-    public int getTimestamp(){
+    public double getTimestamp(){
         return timestamp;
     }
-    public void setTimestamp(int input){
+    public void setTimestamp(double input){
         this.timestamp = input;
     }
     public double getLatitude(){
@@ -34,10 +36,10 @@ public class CAM{
     public void setLongitude(double input){
         this.longitude = input;
     }
-    public int getHeading(){
+    public double getHeading(){
         return heading;
     }
-    public void setHeading(int input){
+    public void setHeading(double input){
         this.heading = input;
     }
     public double getSpeed(){
@@ -51,6 +53,20 @@ public class CAM{
     }
     public void setAcceleration(int input){
         this.acceleration = input;
+    }
+
+    public int getYaw_rate(){
+        return yaw_rate;
+    }
+    public void setYaw_rate(int input){
+        this.yaw_rate = input;
+    }
+
+    public int getAlert(){
+        return alert;
+    }
+    public void setAlert(int input){
+        this.alert = input;
     }
 
     public String toString(){
