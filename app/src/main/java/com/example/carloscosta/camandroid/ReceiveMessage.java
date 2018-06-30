@@ -44,7 +44,8 @@ public class ReceiveMessage implements Runnable {
     public ReceiveMessage(DatagramSocket datagramSocket, Activity act, ProgressBar pb, SupportMapFragment mapFragment) {
         this.datagramSocket = datagramSocket;
         this.a = act;
-        sm = new SetMessages(a, mapFragment);
+        sm = new SetMessages(a, mapFragment, pb);
+
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

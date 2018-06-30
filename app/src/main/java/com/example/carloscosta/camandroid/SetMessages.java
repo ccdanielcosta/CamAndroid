@@ -2,6 +2,8 @@ package com.example.carloscosta.camandroid;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,9 +23,11 @@ public class SetMessages implements OnMapReadyCallback {
     Activity a;
     TextView textStatid, textLat, textLong, textTime,textIpPort;
     GoogleMap map;
+    ProgressBar pb;
 
-    public SetMessages(Activity act, SupportMapFragment mapFragment) {
+    public SetMessages(Activity act, SupportMapFragment mapFragment, ProgressBar pb) {
         this.a = act;
+        this.pb = pb;
         mapFragment.getMapAsync(this);
         textStatid = (TextView) act.findViewById(R.id.textStationID);
         textLat = (TextView) act.findViewById(R.id.textLatitude);
@@ -36,6 +40,7 @@ public class SetMessages implements OnMapReadyCallback {
     Handler mHandlerTime = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
+            pb.setVisibility(View.INVISIBLE);
             String text = (String)msg.obj;
             textTime.setText(text);
         }
@@ -68,7 +73,6 @@ public class SetMessages implements OnMapReadyCallback {
 
 
     public void setValues( int acceleration, double heading, double latitude, double longitude, double speed, int id, double timestamp,  int yawRate, int alert, String ipServer, int portServer){
-
         android.os.Message msgTime = new android.os.Message();
         msgTime.obj = Double.toString(timestamp);
         mHandlerTime.sendMessage(msgTime);
@@ -85,7 +89,12 @@ public class SetMessages implements OnMapReadyCallback {
         msgIpPort.obj = ipServer+":"+portServer;
         mHandlerIpPort.sendMessage(msgIpPort);
 
-        setLocations(latitude,longitude);
+        setLocations(latitude,longitude,id);
+
+
+
+
+
 
 
     }
@@ -95,23 +104,21 @@ public class SetMessages implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         LatLng car = new LatLng(-34, 151);
         map = googleMap;
-
-
-
-
-
-
     }
 
 
 
-    void setLocations(final Double dLatitude, final Double dLongitude)
+    void setLocations(final Double dLatitude, final Double dLongitude, final int typecar)
     {
         a.runOnUiThread(new Runnable(){
+
             public void run(){
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 18));
                 map.addMarker(new MarkerOptions().position(new LatLng(dLatitude, dLongitude))
                         .title("Cars").icon(BitmapDescriptorFactory.fromResource(R.drawable.car1)));
+
+                if (typecar == 1)
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 17));
+
             }
         });
     }

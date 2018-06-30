@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
+        setToastandAudio();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -81,14 +82,13 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
-    public void setToast()
+    public void setToastandAudio()
     {
 
         // Retrieve the Layout Inflater and inflate the layout from xml
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_toast,
                 (ViewGroup) findViewById(R.id.toast_layout_root));
-
 
         // get the reference of TextView and ImageVIew from inflated layout
         TextView toastTextView = (TextView) layout.findViewById(R.id.toastTextView);
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity  {
 
         toast.setDuration(Toast.LENGTH_LONG); // set the duration for the Toast
         toast.setView(layout); // set the inflated layout
-
 
         toast.setGravity(Gravity.BOTTOM | Gravity.RIGHT| Gravity.LEFT ,0, 0);
         toast.show(); // display the custom Toast
