@@ -11,6 +11,8 @@ public class CAM{
     private int acceleration;
     private int yaw_rate;
     private int alert;
+    private String ipserver;
+    private int portserver;
 
     public int getStationId(){
         return stationId;
@@ -54,19 +56,29 @@ public class CAM{
     public void setAcceleration(int input){
         this.acceleration = input;
     }
-
     public int getYaw_rate(){
         return yaw_rate;
     }
     public void setYaw_rate(int input){
         this.yaw_rate = input;
     }
-
     public int getAlert(){
         return alert;
     }
     public void setAlert(int input){
         this.alert = input;
+    }
+    public String getIpserver(){
+        return ipserver;
+    }
+    public void setIpserver(String input){
+        this.ipserver = input;
+    }
+    public int getPortserver(){
+        return portserver;
+    }
+    public void setPortserver(int input){
+        this.portserver = input;
     }
 
     public String toString(){

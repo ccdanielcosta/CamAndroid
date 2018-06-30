@@ -4,6 +4,8 @@ package com.example.carloscosta.camandroid;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +41,11 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
     TextView textLat, textLong;
     //View view = inflater.inflate(R.layout.testclassfragment, container, false);
     static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-    static final LatLng KIEL = new LatLng(53.551, 9.993);
-    SupportMapFragment smp;
-    private GoogleMap googleMap;
+    static final LatLng KIEL = new LatLng(53.551, 9.993);private GoogleMap googleMap;
     static final LatLng DerekPos = new LatLng(40, -79);
+    Resources res;
+    Drawable drawable;
+    ProgressBar progressBar;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -49,16 +53,17 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        progressBar.setVisibility(View.VISIBLE);
 
 
         ReceiveMessage p = null;
         //setToast();
         try {
-            p = new ReceiveMessage(new DatagramSocket(8080), MainActivity.this);
+            p = new ReceiveMessage(new DatagramSocket(8080), MainActivity.this, progressBar);
         } catch (SocketException e) {
             e.printStackTrace();
         }
