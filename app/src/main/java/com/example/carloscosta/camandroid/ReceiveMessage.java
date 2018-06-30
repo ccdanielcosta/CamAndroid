@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.googlecode.protobuf.format.JsonFormat;
 
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 
 
 import java.io.IOException;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
@@ -30,8 +32,8 @@ public class ReceiveMessage implements Runnable {
     Activity a;
     TextView textStatid, textLat, textLong, textTime,textIP;
     private TextView txtProgress;
-   ProgressBar progressBar ;
-   int pStatus = 0;
+    ProgressBar progressBar ;
+    int pStatus = 0;
     SetMessages sm;
 
 
@@ -39,10 +41,10 @@ public class ReceiveMessage implements Runnable {
 
 
 
-    public ReceiveMessage(DatagramSocket datagramSocket, Activity act, ProgressBar pb) {
+    public ReceiveMessage(DatagramSocket datagramSocket, Activity act, ProgressBar pb, SupportMapFragment mapFragment) {
         this.datagramSocket = datagramSocket;
         this.a = act;
-        sm = new SetMessages(a);
+        sm = new SetMessages(a, mapFragment);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

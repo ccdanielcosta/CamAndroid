@@ -34,7 +34,7 @@ import java.net.SocketException;
 
 
 
-public class MainActivity extends AppCompatActivity  implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity  {
 
     int cPort = 8080;
     Button customToast;
@@ -57,27 +57,20 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+       // mapFragment.getMapAsync(this);
         progressBar.setVisibility(View.VISIBLE);
 
 
         ReceiveMessage p = null;
         //setToast();
         try {
-            p = new ReceiveMessage(new DatagramSocket(8080), MainActivity.this, progressBar);
+            p = new ReceiveMessage(new DatagramSocket(8080), MainActivity.this, progressBar, mapFragment);
         } catch (SocketException e) {
             e.printStackTrace();
         }
         new Thread(p).start();
 
 
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = new LatLng(-34, 151);
-        googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 

@@ -4,15 +4,27 @@ import android.app.Activity;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.net.DatagramSocket;
 
-public class SetMessages {
+public class SetMessages implements OnMapReadyCallback {
 
     Activity a;
     TextView textStatid, textLat, textLong, textTime,textIpPort;
+    GoogleMap map;
 
-    public SetMessages(Activity act) {
+    public SetMessages(Activity act, SupportMapFragment mapFragment) {
         this.a = act;
+        mapFragment.getMapAsync(this);
         textStatid = (TextView) act.findViewById(R.id.textStationID);
         textLat = (TextView) act.findViewById(R.id.textLatitude);
         textLong = (TextView) act.findViewById(R.id.textLongitude);
@@ -50,6 +62,7 @@ public class SetMessages {
         public void handleMessage(android.os.Message msg) {
             String text = (String)msg.obj;
             textIpPort.setText(text);
+
         }
     };
 
@@ -72,8 +85,37 @@ public class SetMessages {
         msgIpPort.obj = ipServer+":"+portServer;
         mHandlerIpPort.sendMessage(msgIpPort);
 
+        setLocations(latitude,longitude);
+
 
     }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng car = new LatLng(-34, 151);
+        map = googleMap;
+
+
+
+
+
+
+    }
+
+
+
+    void setLocations(final Double dLatitude, final Double dLongitude)
+    {
+        a.runOnUiThread(new Runnable(){
+            public void run(){
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 18));
+                map.addMarker(new MarkerOptions().position(new LatLng(dLatitude, dLongitude))
+                        .title("Cars").icon(BitmapDescriptorFactory.fromResource(R.drawable.car1)));
+            }
+        });
+    }
+
 
 
 
