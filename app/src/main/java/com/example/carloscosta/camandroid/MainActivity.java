@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.speech.tts.TextToSpeech;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
-
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity  {
     Resources res;
     Drawable drawable;
     ProgressBar progressBar;
+    TextToSpeech textSpeech;
+
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
-        setToastandAudio();
+       // setToastandAudio();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -84,8 +89,7 @@ public class MainActivity extends AppCompatActivity  {
 
     public void setToastandAudio()
     {
-
-        // Retrieve the Layout Inflater and inflate the layout from xml
+            // Retrieve the Layout Inflater and inflate the layout from xml
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_toast,
                 (ViewGroup) findViewById(R.id.toast_layout_root));
@@ -94,21 +98,25 @@ public class MainActivity extends AppCompatActivity  {
         TextView toastTextView = (TextView) layout.findViewById(R.id.toastTextView);
         ImageView toastImageView = (ImageView) layout.findViewById(R.id.toastImageView);
         // set the text in the TextView
-        toastTextView.setText("Custom Toast In Android");
+        toastTextView.setText("Risk of Collision, Reduce Speed!");
         // set the Image in the ImageView
         // toastImageView.setImageResource(R.drawable.ic_launcher);
         // create a new Toast using context
         Toast toast = new Toast(getApplicationContext());
-
         toast.setDuration(Toast.LENGTH_LONG); // set the duration for the Toast
         toast.setView(layout); // set the inflated layout
-
         toast.setGravity(Gravity.BOTTOM | Gravity.RIGHT| Gravity.LEFT ,0, 0);
         toast.show(); // display the custom Toast
+        textSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
 
+            @Override
+            public void onInit(int status) {
+                textSpeech.setLanguage(Locale.US);
+                textSpeech.speak("To avoid a colission reduce speed", TextToSpeech.QUEUE_FLUSH, null);
+            }
+
+        });
     }
-
-
 }
 
 //"StationId", "Timestamp", "Latitude", "Longitude", "Heading", "Speed", "Acceleration", "YawRate",

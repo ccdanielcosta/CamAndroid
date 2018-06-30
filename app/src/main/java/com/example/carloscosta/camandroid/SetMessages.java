@@ -2,9 +2,15 @@ package com.example.carloscosta.camandroid;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.net.DatagramSocket;
+import java.util.Locale;
 
 public class SetMessages implements OnMapReadyCallback {
 
@@ -24,6 +31,8 @@ public class SetMessages implements OnMapReadyCallback {
     TextView textStatid, textLat, textLong, textTime,textIpPort;
     GoogleMap map;
     ProgressBar pb;
+    TextToSpeech textSpeech;
+    private int timestoSpeech = 0;
 
     public SetMessages(Activity act, SupportMapFragment mapFragment, ProgressBar pb) {
         this.a = act;
@@ -89,12 +98,7 @@ public class SetMessages implements OnMapReadyCallback {
         msgIpPort.obj = ipServer+":"+portServer;
         mHandlerIpPort.sendMessage(msgIpPort);
 
-        setLocations(latitude,longitude,id);
-
-
-
-
-
+        setLocations(latitude,longitude,id, alert);
 
 
     }
@@ -108,11 +112,20 @@ public class SetMessages implements OnMapReadyCallback {
 
 
 
-    void setLocations(final Double dLatitude, final Double dLongitude, final int typecar)
+    void setLocations(final Double dLatitude, final Double dLongitude, final int typecar, final int alert)
     {
         a.runOnUiThread(new Runnable(){
 
             public void run(){
+
+                if (alert == 2 && typecar == 1){
+                    System.out.println(timestoSpeech);
+                    if(timestoSpeech>10 && timestoSpeech < 15){
+                    setToastandAudio();
+                    }
+                    timestoSpeech++;
+                }
+
                 map.addMarker(new MarkerOptions().position(new LatLng(dLatitude, dLongitude))
                         .title("Cars").icon(BitmapDescriptorFactory.fromResource(R.drawable.car1)));
 
@@ -120,6 +133,37 @@ public class SetMessages implements OnMapReadyCallback {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 17));
 
             }
+        });
+    }
+
+    public void setToastandAudio()
+    {
+        // Retrieve the Layout Inflater and inflate the layout from xml
+        LayoutInflater inflater = a.getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) a.findViewById(R.id.toast_layout_root));
+
+        // get the reference of TextView and ImageVIew from inflated layout
+        TextView toastTextView = (TextView) layout.findViewById(R.id.toastTextView);
+        ImageView toastImageView = (ImageView) layout.findViewById(R.id.toastImageView);
+        // set the text in the TextView
+        toastTextView.setText("Risk of Collision, Reduce Speed!");
+        // set the Image in the ImageView
+        // toastImageView.setImageResource(R.drawable.ic_launcher);
+        // create a new Toast using context
+        Toast toast = new Toast(a.getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG); // set the duration for the Toast
+        toast.setView(layout); // set the inflated layout
+        toast.setGravity(Gravity.BOTTOM | Gravity.RIGHT| Gravity.LEFT ,0, 0);
+        toast.show(); // display the custom Toast
+        textSpeech = new TextToSpeech(a.getApplicationContext(), new TextToSpeech.OnInitListener() {
+
+            @Override
+            public void onInit(int status) {
+                textSpeech.setLanguage(Locale.US);
+                textSpeech.speak("To avoid a colission reduce speed", TextToSpeech.QUEUE_FLUSH, null);
+            }
+
         });
     }
 
