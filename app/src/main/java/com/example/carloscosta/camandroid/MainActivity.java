@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity  {
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
         setToastandAudio();
 
+        
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
        // mapFragment.getMapAsync(this);
