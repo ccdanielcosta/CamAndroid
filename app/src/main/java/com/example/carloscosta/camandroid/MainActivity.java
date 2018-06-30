@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
 
 
         ReceiveMessage p = null;
-        setToast();
+        //setToast();
         try {
             p = new ReceiveMessage(new DatagramSocket(8080), MainActivity.this);
         } catch (SocketException e) {
