@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity  {
 
                                     System.out.println(cb.isChecked());
                                     System.out.println(et.getText().toString());
-                                    
+
 
                                 }
                             })

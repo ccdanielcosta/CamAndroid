@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CamAndroid</string>
     <string name="latitude">Latitude:</string>
-    <string name="yawrate">YawRate:</string>
+    <string name="yawrate">Heading:</string>
     <string name="speed">Speed:</string>
     <string name="timestamp">Timestamp:</string>
     <string name="stationid">StationId:</string>

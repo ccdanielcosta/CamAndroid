@@ -28,7 +28,7 @@ import java.util.Locale;
 public class SetMessages implements OnMapReadyCallback {
 
     Activity a;
-    TextView textStatid, textLat, textLong, textTime,textIpPort;
+    TextView textStatid, textLat, textLong, textTime,textIpPort, textSpeed, textHeading;
     GoogleMap map;
     ProgressBar pb;
     TextToSpeech textSpeech;
@@ -42,9 +42,19 @@ public class SetMessages implements OnMapReadyCallback {
         textLat = (TextView) act.findViewById(R.id.textLatitude);
         textLong = (TextView) act.findViewById(R.id.textLongitude);
         textTime = (TextView) act.findViewById(R.id.textTimestamp);
+        textSpeed = (TextView) act.findViewById(R.id.textSpeed);
+        textHeading = (TextView) act.findViewById(R.id.textYawRate);
         textIpPort = (TextView) act.findViewById(R.id.textIP);
     }
 
+
+    Handler mHandlerStatId = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            String text = (String)msg.obj;
+            textStatid.setText(text);
+        }
+    };
 
     Handler mHandlerTime = new Handler() {
         @Override
@@ -52,6 +62,23 @@ public class SetMessages implements OnMapReadyCallback {
             pb.setVisibility(View.INVISIBLE);
             String text = (String)msg.obj;
             textTime.setText(text);
+        }
+    };
+
+    Handler mHandlerSpeed = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            String text = (String)msg.obj;
+            textSpeed.setText(text);
+        }
+    };
+
+    Handler mHandlerHeading = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            pb.setVisibility(View.INVISIBLE);
+            String text = (String)msg.obj;
+            textHeading.setText(text);
         }
     };
 
@@ -82,9 +109,22 @@ public class SetMessages implements OnMapReadyCallback {
 
 
     public void setValues( int acceleration, double heading, double latitude, double longitude, double speed, int id, double timestamp,  int yawRate, int alert, String ipServer, int portServer){
+        android.os.Message msgStatId = new android.os.Message();
+        msgStatId.obj = Integer.toString(1);
+        mHandlerStatId.sendMessage(msgStatId);
+        if(id == 1){
+
         android.os.Message msgTime = new android.os.Message();
         msgTime.obj = Double.toString(timestamp);
         mHandlerTime.sendMessage(msgTime);
+
+        android.os.Message msgSpeed = new android.os.Message();
+        msgSpeed.obj = Double.toString(speed*3.6) + " km/h";
+        mHandlerSpeed.sendMessage(msgSpeed);
+
+        android.os.Message msgHeading = new android.os.Message();
+        msgHeading.obj = Double.toString(heading);
+        mHandlerHeading.sendMessage(msgHeading);
 
         android.os.Message msgLat = new android.os.Message();
         msgLat.obj = Double.toString(latitude);
@@ -98,7 +138,10 @@ public class SetMessages implements OnMapReadyCallback {
         msgIpPort.obj = ipServer+":"+portServer;
         mHandlerIpPort.sendMessage(msgIpPort);
 
+        }
+
         setLocations(latitude,longitude,id, alert);
+
 
 
     }
