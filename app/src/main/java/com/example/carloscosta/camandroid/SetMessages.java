@@ -139,6 +139,9 @@ public class SetMessages implements OnMapReadyCallback {
         mHandlerIpPort.sendMessage(msgIpPort);
 
         }
+        if(timestamp == 2200.0){
+        timestoSpeech = 0;
+        }
 
         setLocations(latitude,longitude,id, alert);
 
@@ -165,7 +168,7 @@ public class SetMessages implements OnMapReadyCallback {
 
                 if (alert == 2 && typecar == 1){
                     System.out.println(timestoSpeech);
-                    if(timestoSpeech>10 && timestoSpeech < 15){
+                    if(timestoSpeech>7 && timestoSpeech < 12){
                     setToastandAudio();
                     }
                     timestoSpeech++;
