@@ -4,6 +4,7 @@ package com.example.carloscosta.camandroid;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -99,10 +102,56 @@ public class MainActivity extends AppCompatActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            new AlertDialog.Builder(this)
-                    .setTitle("uiui")
-                    .setMessage("ola")
-                    .show();
+
+            LayoutInflater inflater = getLayoutInflater();
+            final View checkboxLayout = inflater.inflate(R.layout.settings_layout, null);
+            final CheckBox cb = (CheckBox)checkboxLayout.findViewById(R.id.checkBox);
+            final EditText et = (EditText)checkboxLayout.findViewById(R.id.timemessage);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle("Settings")
+                    .setView(checkboxLayout)
+                    .setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    System.out.println(cb.isChecked());
+                                    System.out.println(et.getText().toString());
+
+
+
+                                }
+                            })
+
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Canceled.
+                        }
+                    });
+
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
         return super.onOptionsItemSelected(item);
