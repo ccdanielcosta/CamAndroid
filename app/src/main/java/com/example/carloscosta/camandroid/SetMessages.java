@@ -118,6 +118,8 @@ public class SetMessages implements OnMapReadyCallback {
 
             public void run(){
 
+
+
                 if (alert == 2 && typecar == 1){
                     System.out.println(timestoSpeech);
                     if(timestoSpeech>10 && timestoSpeech < 15){
@@ -126,11 +128,18 @@ public class SetMessages implements OnMapReadyCallback {
                     timestoSpeech++;
                 }
 
-                map.addMarker(new MarkerOptions().position(new LatLng(dLatitude, dLongitude))
-                        .title("Cars").icon(BitmapDescriptorFactory.fromResource(R.drawable.car1)));
+                if (typecar == 1){
+                    map.clear();
+                    map.addMarker(new MarkerOptions().position(new LatLng(dLatitude, dLongitude))
+                            .title("Car1").icon(BitmapDescriptorFactory.fromResource(R.drawable.car1)));
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 17));
+                }
 
-                if (typecar == 1)
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 17));
+                if(typecar == 2){
+                    map.addMarker(new MarkerOptions().position(new LatLng(dLatitude, dLongitude))
+                        .title("Car2").icon(BitmapDescriptorFactory.defaultMarker()));
+                }
+
 
             }
         });
