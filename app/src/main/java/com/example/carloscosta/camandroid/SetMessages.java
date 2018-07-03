@@ -76,7 +76,6 @@ public class SetMessages implements OnMapReadyCallback {
     Handler mHandlerHeading = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            pb.setVisibility(View.INVISIBLE);
             String text = (String)msg.obj;
             textHeading.setText(text);
         }
@@ -109,6 +108,14 @@ public class SetMessages implements OnMapReadyCallback {
 
 
     public void setValues( int acceleration, double heading, double latitude, double longitude, double speed, int id, double timestamp,  int yawRate, int alert, String ipServer, int portServer){
+
+
+        if(timestamp <= 2000){
+            timestoSpeech = 0;
+        }
+       
+
+
         android.os.Message msgStatId = new android.os.Message();
         msgStatId.obj = Integer.toString(1);
         mHandlerStatId.sendMessage(msgStatId);
@@ -139,9 +146,7 @@ public class SetMessages implements OnMapReadyCallback {
         mHandlerIpPort.sendMessage(msgIpPort);
 
         }
-        if(timestamp == 2200.0){
-        timestoSpeech = 0;
-        }
+
 
         setLocations(latitude,longitude,id, alert);
 
@@ -167,7 +172,7 @@ public class SetMessages implements OnMapReadyCallback {
 
 
                 if (alert == 2 && typecar == 1){
-                    System.out.println(timestoSpeech);
+                    System.out.println("TESTEEEEEEEEEE" + timestoSpeech);
                     if(timestoSpeech>7 && timestoSpeech < 12){
                     setToastandAudio();
                     }
